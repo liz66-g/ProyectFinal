@@ -2,6 +2,7 @@
   <q-page class="flex flex-center text-black">
     <div class="row">
       <q-input 
+      v-model="data.name"
       input-class="text-center text-h5 text-black"
       color="teal"
       placeholder="counter" 
@@ -16,7 +17,7 @@
         />
       </div>
       <div class="col text-center text-h2">
-        23
+        {{ data.counter }}
       </div>
       <div class="col text-center">
         <q-btn
@@ -45,5 +46,12 @@
 </style>
 
 <script setup>
+
+import { reactive } from 'vue';
+const data=reactive({
+  counter: 10,
+  name:'asdfasd'
+})
+
 
 </script>
