@@ -1,57 +1,90 @@
 <template>
-  <q-page class="flex flex-center text-black">
+  <q-page 
+  v-touch-pan.vertical.prevent.mouse="handlePan"
+  class="flex flex-center text-black">
     <div class="row">
-      <q-input 
+      <q-input
       v-model="data.name"
-      input-class="text-center text-h5 text-black"
-      color="teal"
-      placeholder="counter" 
-      filled />
-    </div>  
-    <div class="rows full-width items-center">
-      <div class="col text-center">
-        <q-btn
-          icon="remove" 
-          size="xl"
-        round 
+       input-class="text-center text-h5 text-black"
+       color="orange"
+       placeholder="Counter"
+       filled 
         />
-      </div>
-      <div class="col text-center text-h2">
-        {{ data.counter }}
-      </div>
-      <div class="col text-center">
-        <q-btn
-          icon="add_circle_outline" 
-          size="xl"
-        round 
-        />
-      </div>
     </div>
-    <div class="row">
+    <div class="row full-width items-center">
+    <div class="col text-center">
       <q-btn
-          icon="resart_alt" 
-          size="xl"
-        round 
-        />
+      @click="decreaseCouter"
+      v-touch-repeat:300:300:300:300:50.mouse="decreaseCouter"
+       icon="remove_circle_outline"
+       size="xl"
+       round 
+       />
     </div>
+    <div class="col text-center text-h2">
+       {{ data.counter }}
+      </div>
+    <div class="col text-center">
+      <q-btn
+      @click="increaseCouter"
+      v-touch-repeat:300:300:300:300:50.mouse="increaseCouter"
+      icon="add_circle_outline"
+      size="xl"
+      round 
+       />
+    </div>
+  </div>
+  <div class="row">
+    <q-btn
+    @click="resetCouter"
+       icon="restart_alt"
+       size="xl"
+       round 
+       />
+  </div>
   </q-page>
 </template>
 
 <style scoped>
-.q-page{
+.q-page {
   max-width: 700px;
   margin: 0 auto;
-
 }
 </style>
 
 <script setup>
 
-import { reactive } from 'vue';
-const data=reactive({
-  counter: 10,
-  name:'asdfasd'
+// Imports
+import { reactive, watch } from 'vue';
+
+// Data
+const data = reactive({
+  counter: 0,
+  name: ''
 })
 
+watch(data, value => {
+  console.log(value)
+})
+
+// Counter methods
+const increaseCouter = () => {
+  data.counter++
+}
+
+const decreaseCouter = () => {
+  if (data.counter > 0) data.counter--
+}
+
+const resetCouter = () => {
+  data.counter = 0
+}
+
+//touch pan
+const handlePan = e => {
+  console.log(e.delta.y)
+  if (e.delta.y < 0) increaseCouter()
+  else decreaseCouter()
+}
 
 </script>
